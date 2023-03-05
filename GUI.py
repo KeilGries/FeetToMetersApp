@@ -25,5 +25,4 @@ while True:
     window['output'].update(value=f'{meters} m')
 
 
-
 window.close()
