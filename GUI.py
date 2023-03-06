@@ -35,7 +35,7 @@ while True:
                 inches = values['inches']
 
                 meters = fmc(feet, inches)
-                window['output'].update(value=f'{meters} m')
+                window['output'].update(value=f' {meters} m')
             except ValueError:
                 sg.popup('Please enter values for feet/inches using digits.',
                          font='Helvetica')
