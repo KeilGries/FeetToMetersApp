@@ -25,10 +25,13 @@ while True:
     match event:
         case 'Exit':
             break
+        case sg.WIN_CLOSED:
+            break
         case 'Convert':
             try:
                 feet = values['feet']
                 inches = values['inches']
+
                 meters = fmc(feet, inches)
                 window['output'].update(value=f'{meters} m')
             except ValueError:
