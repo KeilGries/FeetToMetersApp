@@ -1,28 +1,39 @@
 import PySimpleGUI as sg
-import fm_converter as fmc
+from fm_converter import fmc
 
-label1 = sg.Text('Enter feet: ', background_color='black')
-input1 = sg.InputText(tooltip='Enter a digit representing feet', key='feet')
+sg.theme('Black')
 
-label2= sg.Text('Enter inches: ', background_color='black')
-input2 = sg.InputText(tooltip='Enter a digit representing inches', key='inches')
+label1 = sg.Text('Enter feet: ')
+input1 = sg.InputText(tooltip='Enter a digit representing feet', key='feet',
+                      size=20)
+
+label2= sg.Text('Enter inches: ')
+input2 = sg.InputText(tooltip='Enter a digit representing inches', key='inches',
+                      size=18)
 
 button1 = sg.Button('Convert')
-output_label = sg.Text(key='output', background_color='black', text_color='green')
+button2 = sg.Button('Exit')
+output_label = sg.Text(key='output', text_color='green')
 
-window = sg.Window('Feet to Meters Convertor', background_color='black',
+window = sg.Window('Feet to Meters Convertor', font='Helvetica',
                                                layout=[[label1, input1],
                                                        [label2, input2],
-                                                       [button1, output_label]])
+                                                       [button1, button2, output_label]])
 
 while True:
-    event, values = window.read()
-    print(event, values)
-    feet = values['feet']
-    inches = values['inches']
-
-    meters = fmc.fmc(feet, inches)
-    window['output'].update(value=f'{meters} m')
-
+    event, values = window.read(timeout=200)
+    match event:
+        case 'Exit':
+            break
+        case 'Convert':
+            try:
+                feet = values['feet']
+                inches = values['inches']
+                meters = fmc(feet, inches)
+                window['output'].update(value=f'{meters} m')
+            except ValueError:
+                sg.popup('Please enter values for feet/inches using digits.',
+                         font='Helvetica')
 
 window.close()
+
